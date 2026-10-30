@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Smolyarchuk | CAD & Mechanical Design Portfolio</title>
+    <meta name="description" content="Professional CAD Engineering Portfolio of Mark Smolyarchuk. Specializing in Parametric Modeling, Reverse Engineering, DFM, and Autodesk Fusion 360 Automation.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Three.js for 3D Interactive WebGL Viewer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #0a0c10;
+            --bg-secondary: #11141b;
+            --bg-card: rgba(22, 27, 36, 0.75);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-focus: #0088ff;
+            --text-primary: #f0f3f6;
+            --text-secondary: #9aa5b5;
+            --text-muted: #626d7f;
+            --accent-cyan: #00d2ff;
+            --accent-blue: #0070f3;
+            --accent-purple: #7928ca;
+            --accent-orange: #ff6b35;
+            --accent-green: #00e599;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 112, 243, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 65%, rgba(0, 210, 255, 0.06) 0%, transparent 40%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 12, 16, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo-badge {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: #000;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .nav-btn {
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 90px 0 60px;
+            position: relative;
+        }
+
+        .hero-badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-family: var(--font-mono);
+            color: var(--accent-cyan);
+            margin-bottom: 24px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #fff 30%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 760px;
+            margin-bottom: 36px;
+            font-weight: 400;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: var(--font-mono);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .skill-tag i {
+            color: var(--accent-cyan);
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: #000;
+            font-weight: 700;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            font-weight: 600;
+            padding: 14px 26px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* 3D WebGL Live Viewer Section */
+        .viewer-section {
+            padding: 40px 0 80px;
+        }
+
+        .viewer-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .viewer-header {
+            padding: 18px 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .viewer-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px var(--accent-green);
+        }
+
+        .viewer-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: var(--font-mono);
+        }
+
+        .btn-control:hover, .btn-control.active {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+        }
+
+        #webgl-canvas-container {
+            width: 100%;
+            height: 520px;
+            position: relative;
+            background: radial-gradient(circle at center, #171c26 0%, #0d1017 100%);
+            cursor: grab;
+        }
+
+        #webgl-canvas-container:active {
+            cursor: grabbing;
+        }
+
+        .viewer-hint {
+            position: absolute;
+            bottom: 16px;
+            left: 20px;
+            font-size: 0.8rem;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            pointer-events: none;
+            background: rgba(10, 12, 16, 0.6);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-tag {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 210, 255, 0.3);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 270px;
+            background: #141822;
+            overflow: hidden;
+        }
+
+        .project-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover .project-img-wrapper img {
+            transform: scale(1.04);
+        }
+
+        .project-category-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(10, 12, 16, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            color: var(--accent-cyan);
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .project-content {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .project-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+            flex-grow: 1;
+        }
+
+        .project-specs {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            font-size: 0.8rem;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .project-specs div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .project-specs div:last-child {
+            margin-bottom: 0;
+        }
+
+        .project-specs span {
+            color: var(--text-secondary);
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-card {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-card-primary {
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 210, 255, 0.25);
+        }
+
+        .btn-card-primary:hover {
+            background: var(--accent-cyan);
+            color: #000;
+        }
+
+        .btn-card-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-card-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+        }
+
+        /* Skills Section */
+        .skills-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .skill-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+        }
+
+        .skill-icon {
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 16px;
+        }
+
+        .skill-box h4 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .skill-box ul {
+            list-style: none;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .skill-box li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .skill-box li i {
+            color: var(--accent-green);
+            font-size: 0.75rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-bottom {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        /* Modal / Lightbox */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: var(--radius-md);
+            box-shadow: 0 0 40px rgba(0, 210, 255, 0.2);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            right: 28px;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            #webgl-canvas-container {
+                height: 360px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <span>Mark Smolyarchuk</span>
+                    <span class="logo-badge">CAD / ENG</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#interactive-3d">Live 3D View</a></li>
+                    <li><a href="#skills">Capabilities</a></li>
+                </ul>
+                <a href="https://github.com/Mark-314159265/CAD-Portfolio" target="_blank" class="nav-btn">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge-pill">
+                <i class="fas fa-cube"></i> Autodesk Fusion 360 • DFM • Reverse Engineering
+            </div>
+            <h1 class="hero-title">
+                CAD & Mechanical <span>Design Engineer</span>
+            </h1>
+            <p class="hero-subtitle">
+                Designing high-precision parametric components, reverse-engineered automotive replacements, modular mechanical assemblies, and DFM-optimized parts for additive manufacturing and CNC machining.
+            </p>
+            <div class="hero-badges">
+                <span class="skill-tag"><i class="fas fa-check"></i> Parametric B-Rep Assemblies</span>
+                <span class="skill-tag"><i class="fas fa-check"></i> Reverse Engineering & Tolerancing</span>
+                <span class="skill-tag"><i class="fas fa-check"></i> DFM for 3D Printing (FDM/SLA)</span>
+                <span class="skill-tag"><i class="fas fa-check"></i> Python CAD API Automation</span>
+            </div>
+            <div class="hero-cta">
+                <a href="#projects" class="btn-primary">
+                    <i class="fas fa-folder-open"></i> Browse CAD Projects
+                </a>
+                <a href="https://github.com/Mark-314159265/CAD-Portfolio/tree/main/models" target="_blank" class="btn-secondary">
+                    <i class="fas fa-download"></i> Download STEP / STL Models
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive 3D WebGL Live Viewer -->
+    <section id="interactive-3d" class="viewer-section">
+        <div class="container">
+            <div class="viewer-card">
+                <div class="viewer-header">
+                    <h3 id="viewer-title">
+                        <span class="live-dot"></span>
+                        Interactive 3D CAD Inspection: Articulated Desktop Luminaire
+                    </h3>
+                    <div class="viewer-controls">
+                        <button id="btn-model-lamp" class="btn-control active" onclick="switchModel(0)"><i class="fas fa-lightbulb"></i> Desktop Lamp</button>
+                        <button id="btn-model-vw" class="btn-control" onclick="switchModel(1)"><i class="fas fa-car"></i> VW Bracket</button>
+                        <button id="btn-model-ball" class="btn-control" onclick="switchModel(2)"><i class="fas fa-cog"></i> Ball Joint</button>
+                        <button id="btn-wireframe" class="btn-control"><i class="fas fa-border-all"></i> Wireframe</button>
+                        <button id="btn-autorotate" class="btn-control active"><i class="fas fa-sync-alt"></i> Auto-Rotate</button>
+                        <button id="btn-reset" class="btn-control"><i class="fas fa-undo"></i> Reset</button>
+                    </div>
+                </div>
+                <div id="webgl-canvas-container">
+                    <div class="viewer-hint"><i class="fas fa-hand-pointer"></i> Left Click: Orbit • Right Click: Pan • Scroll: Zoom</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="container">
+        <div class="section-header">
+            <span class="section-tag">Engineering Showcase</span>
+            <h2 class="section-title">Featured CAD & Mechanical Projects</h2>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                Each project includes fully detailed models, Design for Manufacturing analysis, and downloadable STEP/STL files.
+            </p>
+        </div>
+
+        <div class="projects-grid">
+            <!-- Project 1: Parametric Fluted Desktop Luminaire -->
+            <div class="project-card">
+                <div class="project-img-wrapper">
+                    <span class="project-category-badge">Product & Kinematics</span>
+                    <img src="assets/images/hero_lamp_assembly.png" alt="Parametric Fluted Desktop Luminaire" onclick="openLightbox(this.src)">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Parametric Fluted Desktop Lamp (Luminaire)</h3>
+                    <p class="project-desc">
+                        Full-assembly articulated desktop luminaire featuring a 24-rib fluted conical shade, toolless 3-lug bayonet twist-lock with acoustic detents, dual articulated cantilever arms with M10 wing nuts, and an integrated base rocker switch.
+                    </p>
+                    <div class="project-specs">
+                        <div>Dimensions: <span>184 x 302 x 344 mm</span></div>
+                        <div>Mechanism: <span>3-Lug Bayonet + Dual Pivot Arms</span></div>
+                        <div>Neck Joint: <span>Spherical Swivel Collar</span></div>
+                        <div>Files: <span>Complete STEP & STL Assembly</span></div>
+                    </div>
+                    <div class="project-actions">
+                        <button onclick="inspectIn3D(0)" class="btn-card btn-card-primary"><i class="fas fa-cube"></i> Inspect 3D</button>
+                        <a href="projects/02-parametric-fluted-luminaire/" class="btn-card btn-card-secondary">Technical Specs</a>
+                        <a href="models/desktop_lamp_assembly.step" class="btn-card btn-card-secondary"><i class="fas fa-download"></i> STEP</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2: Holder Volkswagen -->
+            <div class="project-card">
+                <div class="project-img-wrapper">
+                    <span class="project-category-badge">Automotive / Reverse Eng</span>
+                    <img src="assets/images/hero_touran_clip.png" alt="Volkswagen Visor Holder CAD" onclick="openLightbox(this.src)">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Volkswagen Sun Visor Bracket (Holder)</h3>
+                    <p class="project-desc">
+                        Precision reverse-engineering replacement bracket for Volkswagen Group sun visors. Features reinforced hook geometry, dual M4 fastener counterbore pockets, and robust mounting flanges to eliminate factory fatigue failure.
+                    </p>
+                    <div class="project-specs">
+                        <div>Component: <span>Holder Volkswagen</span></div>
+                        <div>Dimensions: <span>37.1 x 17.1 x 28.0 mm</span></div>
+                        <div>Material: <span>PETG / ABS / Nylon PA12</span></div>
+                        <div>Files: <span>STEP & STL included</span></div>
+                    </div>
+                    <div class="project-actions">
+                        <button onclick="inspectIn3D(1)" class="btn-card btn-card-primary"><i class="fas fa-cube"></i> Inspect 3D</button>
+                        <a href="projects/01-volkswagen-touran-visor-clip/" class="btn-card btn-card-secondary">Technical Specs</a>
+                        <a href="models/holder_volkswagen.step" class="btn-card btn-card-secondary"><i class="fas fa-download"></i> STEP</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3: Articulated Ball Joint -->
+            <div class="project-card">
+                <div class="project-img-wrapper">
+                    <span class="project-category-badge">Kinematics & Assemblies</span>
+                    <img src="assets/images/hero_ball_head.png" alt="Articulated Ball Joint CAD" onclick="openLightbox(this.src)">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Articulated Ball Joint with Winged Scalloped Nut</h3>
+                    <p class="project-desc">
+                        Precision 3-piece spherical swivel mechanism with custom redesigned locking collar nut featuring 14 broad scalloped finger flutes and dual opposing torque wings for high-leverage manual clamping.
+                    </p>
+                    <div class="project-specs">
+                        <div>Kinematics: <span>Spherical Swivel (±25° Conical Range)</span></div>
+                        <div>Collar Grip: <span>14 Wavy Scallops + 2 Torque Wings</span></div>
+                        <div>Ball Bearing: <span>Ø18 mm Spherical Ball Stud</span></div>
+                        <div>Thread: <span>M23 Precision Clamping Thread</span></div>
+                    </div>
+                    <div class="project-actions">
+                        <button onclick="inspectIn3D(2)" class="btn-card btn-card-primary"><i class="fas fa-cube"></i> Inspect 3D</button>
+                        <a href="projects/03-articulated-ball-joint/" class="btn-card btn-card-secondary">Technical Specs</a>
+                        <a href="models/Articulated_Ball_Head_Assembly.step" class="btn-card btn-card-secondary"><i class="fas fa-download"></i> STEP</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capabilities & Skills -->
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Core Competencies</span>
+                <h2 class="section-title">Engineering & CAD Capabilities</h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-box">
+                    <div class="skill-icon"><i class="fas fa-drafting-compass"></i></div>
+                    <h4>CAD & Mechanical Modeling</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Autodesk Fusion 360 (Advanced)</li>
+                        <li><i class="fas fa-check"></i> SolidWorks & STEP/IGES exchange</li>
+                        <li><i class="fas fa-check"></i> Top-down & Bottom-up parametric assemblies</li>
+                        <li><i class="fas fa-check"></i> T-Spline surfacing & loft transitions</li>
+                    </ul>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-icon"><i class="fas fa-industry"></i></div>
+                    <h4>Design for Manufacturing (DFM)</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Additive Manufacturing (FDM/SLA slicing)</li>
+                        <li><i class="fas fa-check"></i> Injection molding draft & wall uniformity</li>
+                        <li><i class="fas fa-check"></i> ISO fits, tolerancing & clearance offsets</li>
+                        <li><i class="fas fa-check"></i> Snap fits, bayonets & threaded joints</li>
+                    </ul>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-icon"><i class="fas fa-ruler-combined"></i></div>
+                    <h4>Reverse Engineering</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Precision caliper & micrometer measurement</li>
+                        <li><i class="fas fa-check"></i> Blueprint & photo alignment to 3D space</li>
+                        <li><i class="fas fa-check"></i> Automotive interior bracket reconstruction</li>
+                        <li><i class="fas fa-check"></i> Sheet metal & panel cutout verification</li>
+                    </ul>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-icon"><i class="fas fa-code"></i></div>
+                    <h4>CAD Automation & Scripting</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Autodesk Fusion 360 Python API</li>
+                        <li><i class="fas fa-check"></i> FastMCP / Headless CAD integration</li>
+                        <li><i class="fas fa-check"></i> Automated batch render & STEP export</li>
+                        <li><i class="fas fa-check"></i> Python, C++, WebGL Three.js</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                &copy; 2026 Mark Smolyarchuk. CAD Portfolio & 3D Engineering Showcase.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="modal" onclick="closeLightbox()">
+        <span class="modal-close">&times;</span>
+        <img id="lightbox-img" class="modal-content" src="" alt="Zoomed CAD render">
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Lightbox
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-modal').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.remove('active');
+        }
+
+        // ==========================================
+        // Three.js Interactive 3D Viewer
+        // ==========================================
+        const container = document.getElementById('webgl-canvas-container');
+        let scene, camera, renderer, controls, mesh;
+        let isWireframe = false;
+        let autoRotate = true;
+
+        const models = [
+            { 
+                path: 'models/desktop_lamp_assembly.stl', 
+                title: 'Interactive 3D CAD Inspection: Articulated Desktop Luminaire', 
+                camPos: [-240, -360, 260], 
+                color: 0xc8cdd4 
+            },
+            { 
+                path: 'models/holder_volkswagen.stl', 
+                title: 'Interactive 3D CAD Inspection: Volkswagen Sun Visor Bracket', 
+                camPos: [-50, -65, 45], 
+                color: 0xd8d8de 
+            },
+            { 
+                path: 'models/ball_head_assembly.stl', 
+                title: 'Interactive 3D CAD Inspection: Articulated Ball Joint', 
+                camPos: [-50, -60, 45], 
+                color: 0x9098a5 
+            }
+        ];
+        let currentModelIdx = 0;
+
+        function switchModel(idx) {
+            currentModelIdx = idx;
+            const btnIds = ['btn-model-lamp', 'btn-model-vw', 'btn-model-ball'];
+            btnIds.forEach((id, i) => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('active', i === idx);
+            });
+            loadModel(idx);
+        }
+
+        function inspectIn3D(idx) {
+            switchModel(idx);
+            const viewerSec = document.getElementById('interactive-viewer');
+            if (viewerSec) {
+                viewerSec.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function loadModel(idx) {
+            if (mesh) {
+                scene.remove(mesh);
+                mesh.geometry.dispose();
+                mesh.material.dispose();
+            }
+            const m = models[idx];
+            document.getElementById('viewer-title').innerHTML = `<span class="live-dot"></span> ` + m.title;
+
+            // Adjust camera for model scale
+            camera.position.set(m.camPos[0], m.camPos[1], m.camPos[2]);
+            controls.target.set(0, 0, 0);
+            controls.update();
+
+            const loader = new THREE.STLLoader();
+            loader.load(m.path, function(geometry) {
+                geometry.center();
+                const material = new THREE.MeshStandardMaterial({
+                    color: m.color,
+                    roughness: 0.4,
+                    metalness: 0.25,
+                    wireframe: isWireframe
+                });
+                mesh = new THREE.Mesh(geometry, material);
+                scene.add(mesh);
+            }, undefined, function(error) {
+                console.log('Error loading STL:', error);
+            });
+        }
+
+        function init3DViewer() {
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 2000);
+            const m0 = models[0];
+            camera.position.set(m0.camPos[0], m0.camPos[1], m0.camPos[2]);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            container.appendChild(renderer.domElement);
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.autoRotate = autoRotate;
+            controls.autoRotateSpeed = 2.0;
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+            scene.add(ambientLight);
+
+            const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.9);
+            dirLight1.position.set(100, 120, 150);
+            scene.add(dirLight1);
+
+            const dirLight2 = new THREE.DirectionalLight(0x00d2ff, 0.35);
+            dirLight2.position.set(-100, -80, -40);
+            scene.add(dirLight2);
+
+            // Subtle Grid helper
+            const gridHelper = new THREE.GridHelper(300, 30, 0x0088ff, 0x223344);
+            gridHelper.rotation.x = Math.PI / 2;
+            gridHelper.position.z = -25;
+            scene.add(gridHelper);
+
+            switchModel(0);
+
+            window.addEventListener('resize', onWindowResize, false);
+            animate();
+        }
+
+        function onWindowResize() {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.autoRotate = autoRotate;
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        document.getElementById('btn-wireframe').addEventListener('click', function() {
+            isWireframe = !isWireframe;
+            this.classList.toggle('active', isWireframe);
+            if (mesh) mesh.material.wireframe = isWireframe;
+        });
+
+        document.getElementById('btn-autorotate').addEventListener('click', function() {
+            autoRotate = !autoRotate;
+            this.classList.toggle('active', autoRotate);
+        });
+
+        document.getElementById('btn-reset').addEventListener('click', function() {
+            const m = models[currentModelIdx];
+            camera.position.set(m.camPos[0], m.camPos[1], m.camPos[2]);
+            controls.target.set(0, 0, 0);
+            controls.update();
+        });
+
+        window.onload = init3DViewer;
+    </script>
+</body>
+</html>
